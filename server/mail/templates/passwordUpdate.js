@@ -55,7 +55,7 @@ exports.passwordUpdated = (email, name) => {
     
     <body>
         <div class="container">
-            <a href="https://STUrDY-edtech-project.vercel.app"><img class="logo"
+            <a href="https://st-ur-dy.vercel.app/"><img class="logo"
                     src="https://res.cloudinary.com/lakhancloud/image/upload/v1718887618/sturdy-high-resolution-logo-white-transparent_jxmkif.png" alt="STUrDY Logo"></a>
             <div class="message">Password Update Confirmation</div>
             <div class="body">
