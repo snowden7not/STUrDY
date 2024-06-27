@@ -15,6 +15,9 @@ import { fetchCourseDetails } from "../services/operations/courseDetailsAPI"
 import { BuyCourse } from "../services/operations/studentFeaturesAPI"
 import GetAvgRating from "../utils/avgRating"
 import Error from "./Error"
+import { ACCOUNT_TYPE } from "../utils/constants"
+import { toast } from "react-hot-toast"
+import { addToCart } from "../slices/cartSlice"
 
 function CourseDetails() {
   const { user } = useSelector((state) => state.profile)
@@ -125,6 +128,25 @@ function CourseDetails() {
     )
   }
 
+  const handleAddToCart = () => {
+    if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+      toast.error("You are an Instructor. You can't buy a course.")
+      return
+    }
+    if (token) {
+      dispatch(addToCart(response?.data?.courseDetails))
+      return
+    }
+    setConfirmationModal({
+      text1: "You are not logged in!",
+      text2: "Please login to add To Cart",
+      btn1Text: "Login",
+      btn2Text: "Cancel",
+      btn1Handler: () => navigate("/login"),
+      btn2Handler: () => setConfirmationModal(null),
+    })
+  }
+
   return (
     <>
       <div className={`relative w-full bg-richblack-800`}>
@@ -174,10 +196,23 @@ function CourseDetails() {
               <p className="space-x-3 pb-4 text-3xl font-semibold text-richblack-5">
                 Rs. {price}
               </p>
-              <button className="yellowButton" onClick={handleBuyCourse}>
-                Buy Now
+              <button
+              className="yellowButton"
+              onClick={
+                user && response?.data?.courseDetails?.studentsEnroled.includes(user?._id)
+                  ? () => navigate("/dashboard/enrolled-courses")
+                  : handleBuyCourse
+              }
+            >
+              {user && response?.data?.courseDetails?.studentsEnroled.includes(user?._id)
+                ? "Go To Course"
+                : "Buy Now"}
+            </button>
+            {(!user || !response?.data?.courseDetails?.studentsEnroled.includes(user?._id)) && (
+              <button onClick={handleAddToCart} className="blackButton max-lg:bg-richblack-600">
+                Add to Cart
               </button>
-              <button className="blackButton">Add to Cart</button>
+            )}
             </div>
           </div>
           {/* Courses Card */}
