@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 
 import RenderCartCourses from "./RenderCartCourses"
 import RenderTotalAmount from "./RenderTotalAmount"
+import { Link } from "react-router-dom"
 
 export default function Cart() {
   const { total, totalItems } = useSelector((state) => state.cart)
@@ -26,8 +27,9 @@ export default function Cart() {
           <RenderTotalAmount />
         </div>
       ) : (
-        <p className="mt-14 text-center text-3xl text-richblack-100">
+        <p className="mt-14 text-center md:text-3xl text-richblack-100">
           Your cart is empty
+          <Link to={"/AllCourses"}><p className="my-[30px] yellowButton ">Visit All Courses</p></Link>
         </p>
       )}
     </>
