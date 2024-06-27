@@ -67,7 +67,7 @@ function Navbar() {
   };
 
   return (
-  <div className="flex flex-col">
+  <div className="">
     <div
       className={`flex md:h-14 h-12 items-center justify-center border-b-[1px] border-b-richblack-700 ${
         location.pathname !== "/" ? "bg-richblack-800" : ""
